@@ -51,3 +51,38 @@ Usage examples:
 - `^$`: Matches an empty string.
 
 Anchors work best when you have specific constraints on the position of a match. They are especially useful when you want to ensure that a pattern matches an entire string or line.
+
+
+### Quantifiers
+Quantifiers in regular expressions define how often an element can occur. They are vital for specifying the frequency of a pattern.
+
+1. Asterisk (*):
+Meaning: Matches the preceding character or group 0 or more times.
+Example:
+ab*c will match "ac", "abc", "abbc", "abbbc", and so on.
+
+2. Plus (+):
+Meaning: Matches the preceding character or group 1 or more times.
+Example:
+ab+c will match "abc", "abbc", "abbbc", and so on, but not "ac".
+
+3. Question Mark (?):
+Meaning: Matches the preceding character or group 0 or 1 time (i.e., it makes it optional).
+Example:
+ab?c will match both "abc" and "ac", but not "abbc".
+
+4. Braces ({}, {n}, {n,}, and {n,m}):
+{n}: Matches the preceding character or group exactly n times.
+a{3} will match "aaa" but not "aa" or "aaaa".
+{n,}: Matches the preceding character or group n or more times.
+a{2,} will match "aa", "aaa", "aaaa", and so on, but not "a".
+{n,m}: Matches the preceding character or group between n and m times inclusive.
+a{2,3} will match "aa", "aaa", but not "a" or "aaaa".
+
+5. Lazy Quantifiers:
+By default, quantifiers are "greedy", meaning they match as much as possible. However, by using a lazy quantifier, you can make them match as little as possible:
+
+*?: Matches the preceding character or group 0 or more times, but as few times as possible.
++?: Matches the preceding character or group 1 or more times, but as few times as possible.
+??: Matches the preceding character or group 0 or 1 time, but prefers 0 occurrences.
+{n,m}?: Matches the preceding character or group between n and m times, but as few times as possible.
