@@ -1,13 +1,18 @@
 # Toussaint's Regex Tutorial
 
 
-Introductory paragraph (replace this with your text)
+This tutorial tries to teach you the basics of using the specific Regex Tutorial that matches a Hex Value.
 
 
 ## Summary
 
 
-Briefly summarize the regex you will be describing and what you will explain. Include a code snippet of the regex. Replace this text with your summary.
+Here we will be breaking down the following Regular Expression:
+
+`/^#?([a-f0-9]{6}|[a-f0-9]{3})$/`
+
+This Regular expression Matches a Hex Value.
+
 
 ## Table of Contents
 
@@ -32,57 +37,100 @@ Here are the following basic components of regular expressions
 
 
 ### Anchors
- Anchors are a fundamental concept in regular expressions, helping determine the position of a match in a string. They don't match actual characters in the string but rather positions.
+Anchors in regular expressions are used to specify a position within the string where a match is to occur. Unlike other components of regex that match characters, anchors match a position. 
 
- # Two primary anchors:
-- Caret (^):
-This anchor matches the start of a string.
-For example, ^A will match any string that starts with the letter 'A'.
-In multiline mode (usually with the m flag), ^ can also match the start of a line.
-- Dollar ($):
-This anchor matches the end of a string.
-For example, B$ will match any string that ends with the letter 'B'.
-In multiline mode, $ can also match the end of a line.
+In regex `/^#?([a-f0-9]{6}|[a-f0-9]{3})$/`, the anchors are:
 
-Usage examples:
-- `^abc`: Matches any string that starts with "abc".
-- `xyz$`: Matches any string that ends with "xyz".
-- `^abc$`: Matches the string "abc" in its entirety, without any characters before or after.
-- `^$`: Matches an empty string.
+1. `^`: This is the start-of-string anchor. It asserts that the match should begin at the start of the string.
+2. `$`: This is the end-of-string anchor. It asserts that the match should end at the end of the string.
 
-Anchors work best when you have specific constraints on the position of a match. They are especially useful when you want to ensure that a pattern matches an entire string or line.
+
+### Two primary anchors:
+
+1. `^`: This is the start-of-string anchor. It asserts that the following pattern will start at the very beginning of the string.
+
+2. `$`: This is the end-of-string anchor. It asserts that the preceding pattern will end at the very end of the string.
+
+By combining these two anchors (^ and $), you ensure that the entire string matches the given pattern, and there are no other characters before or after the pattern.
+
+
 
 
 ### Quantifiers
 Quantifiers in regular expressions define how often an element can occur. They are vital for specifying the frequency of a pattern.
 
-1. Asterisk (*):
-Meaning: Matches the preceding character or group 0 or more times.
-Example:
-ab*c will match "ac", "abc", "abbc", "abbbc", and so on.
+The Quantifiers in `/^#?([a-f0-9]{6}|[a-f0-9]{3})$/` are:
 
-2. Plus (+):
-Meaning: Matches the preceding character or group 1 or more times.
-Example:
-ab+c will match "abc", "abbc", "abbbc", and so on, but not "ac".
+1. `?`: This is a quantifier that matches the preceding element (in this case, the # character) zero or one time. So, the hash symbol is optional.
 
-3. Question Mark (?):
-Meaning: Matches the preceding character or group 0 or 1 time (i.e., it makes it optional).
-Example:
-ab?c will match both "abc" and "ac", but not "abbc".
+2. `{6}`: This is a quantifier that matches the preceding element (in this case, the character class [a-f0-9]) exactly 6 times.
 
-4. Braces ({}, {n}, {n,}, and {n,m}):
-{n}: Matches the preceding character or group exactly n times.
-a{3} will match "aaa" but not "aa" or "aaaa".
-{n,}: Matches the preceding character or group n or more times.
-a{2,} will match "aa", "aaa", "aaaa", and so on, but not "a".
-{n,m}: Matches the preceding character or group between n and m times inclusive.
-a{2,3} will match "aa", "aaa", but not "a" or "aaaa".
+3. `{3}`: This is another quantifier that matches the preceding element (again, the character class [a-f0-9]) exactly 3 times.
 
-5. Lazy Quantifiers:
-By default, quantifiers are "greedy", meaning they match as much as possible. However, by using a lazy quantifier, you can make them match as little as possible:
+4. `#?` means it can match a string that starts with a # or doesn't (because of the ? quantifier).
 
-*?: Matches the preceding character or group 0 or more times, but as few times as possible.
-+?: Matches the preceding character or group 1 or more times, but as few times as possible.
-??: Matches the preceding character or group 0 or 1 time, but prefers 0 occurrences.
-{n,m}?: Matches the preceding character or group between n and m times, but as few times as possible.
+5. `[a-f0-9]{6}` will match any string of exactly 6 characters that are in the range a-f (hexadecimal letters) or 0-9 (digits) because of the {6} quantifier.
+
+6. `[a-f0-9]{3}` will match any string of exactly 3 characters that are in the range a-f or 0-9 because of the {3} quantifier.
+
+### Grouping Constructs
+Grouping constructs in regex are used to define subpatterns or groups within the overall pattern. They are essential for multiple purposes, such as capturing substrings, applying quantifiers to multiple characters, or setting up conditions or alternatives within a pattern.
+
+In the regex `/^#?([a-f0-9]{6}|[a-f0-9]{3})$/`, it contains "Capturing Groups".
+
+1. Capturing Groups:
+- `([a-f0-9]{6}|[a-f0-9]{3})`: This is a capturing group. Anything that matches this group can be referenced later (e.g., for backreferences or when extracting matched portions of the input string).
+Within this capturing group:
+
+    - `[a-f0-9]{6}` matches a sequence of exactly 6 characters from the range a-f or 0-9 (hexadecimal values).
+
+    - `[a-f0-9]{3}` matches a sequence of exactly 3 characters from the same range.
+
+The | (pipe) character acts as an "OR" operator, meaning the group will capture either a 6-character sequence or a 3-character sequence, but not both.
+### Bracket Expressions
+In regular expressions, bracket expressions are used to match a single character out of a set of specified characters. They are defined using square brackets 
+
+In the regex `/^#?([a-f0-9]{6}|[a-f0-9]{3})$/`, it contains the following bracket expressions: 
+
+1. `[a-f]`: This matches any single character that is a lowercase letter from "a" to "f". It represents the hexadecimal characters.
+
+2. `[0-9]`: This matches any single digit from "0" to "9".
+
+Both of these bracket expressions are used to construct the pattern that matches hexadecimal values.
+
+
+### Character Classes
+
+In regular expressions, character classes are predefined shorthand notations to match specific sets of characters. They provide a more concise way to specify a group of characters than using bracket expressions.
+
+In the Regex Expression  `/^#?([a-f0-9]{6}|[a-f0-9]{3})$/`, there aren't any Character Classes. 
+
+### The OR Operator
+In regular expressions, the "OR" operator, also known as the alternation or choice operator, is represented by the pipe symbol `|`. 
+It allows for matching one of several possible patterns. When used, the regex engine will attempt to match each option from left to right until one of the patterns successfully matches.
+
+Within the capturing group `([a-f0-9]{6}|[a-f0-9]{3})`, the "OR" operator separates two alternative patterns:
+
+1. `[a-f0-9]{6}`: This pattern matches a sequence of exactly 6 hexadecimal characters.
+
+2. `[a-f0-9]{3}`: This pattern matches a sequence of exactly 3 hexadecimal characters.
+
+Thus, the "OR" operator allows the regex to match either a 6-character hexadecimal value or a 3-character hexadecimal value within the given string.
+
+### Flags
+In regular expressions, flags (also called modifiers) are used to change the search behavior of the pattern. They affect how the regex matches strings.
+
+In the regex `/^#?([a-f0-9]{6}|[a-f0-9]{3})$/`, there are no flags.
+
+### Character Escapes
+In regular expressions, character escapes are used to represent special characters or to give characters special meanings. They are typically formed using a backslash \ followed by a character.
+
+The regex `/^#?([a-f0-9]{6}|[a-f0-9]{3})$/` contains the following Character Escapes:
+
+1. `^`: This character is an anchor for the start of a string or line, but in some contexts (like within a bracket expression), it could be considered an escape character (to denote negation). However, in this regex, it's not used as an escape but as an anchor.
+
+2. `#`: The hash symbol does not have special meaning in most regex flavors, so it doesn't need to be escaped to match a literal #. However, in some contexts or regex flavors, you might escape it to ensure it's treated as a literal.
+
+3. `$`: This character is an anchor for the end of a string or line. Like ^, in this context, it's used as an anchor, not an escape.
+
+4. `{ and }`: These are used for quantification (to specify how many times an element should be matched). In this regex, `{6}` and `{3}` denote quantifiers, so the curly braces aren't being used as escape sequences for literal characters.
